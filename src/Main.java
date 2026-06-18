@@ -19,133 +19,22 @@ public class Main {
             System.out.println("5.Update User");
             System.out.println("6.Exit");
             int choice = sc.nextInt();
-            boolean found = false;
             switch (choice) {
                 case 1:
-                    System.out.println("Select User Type: ");
-                    System.out.println("1. Student");
-                    System.out.println("2. Teacher");
-                    System.out.println("3. Admin");
-                    User newUser = null;
-                    int userType = sc.nextInt();
-                    switch (userType) {
-                        case 1:
-                            System.out.println("Enter Student ID: ");
-                            int studentId = sc.nextInt();
-                            if (idExists(users, studentId)) {
-                                System.out.println("ID is already in use.");
-                                break;
-                            }
-                                System.out.println("Enter Student Name: ");
-                                String studentName = sc.next();
-                                System.out.println("Enter Student Email: ");
-                                String studentEmail = sc.next();
-                                System.out.println("Enter Student Major: ");
-                                String studentMajor = sc.next();
-                                newUser = new Student(studentId, studentName, studentEmail, studentMajor);
-                                users.add(newUser);
-                                break;
-
-                        case 2:
-                            System.out.println("Enter Teacher ID: ");
-                            int teacherId = sc.nextInt();
-                            if (idExists(users, teacherId)) {
-                                System.out.println("ID is already in use.");
-                                break;
-                            }
-                            System.out.println("Enter Teacher Name: ");
-                            String teacherName = sc.next();
-                            System.out.println("Enter Teacher Email: ");
-                            String teacherEmail = sc.next();
-                            System.out.println("Enter Teacher Department: ");
-                            String teacherDepartment = sc.next();
-                            newUser = new Teacher(teacherId, teacherName, teacherEmail, teacherDepartment);
-                            users.add(newUser);
-                            break;
-                        case 3:
-                            System.out.println("Enter Admin ID: ");
-                            int adminId = sc.nextInt();
-                            if (idExists(users, adminId)) {
-                                System.out.println("ID is already in use.");
-                                break;
-                            }
-                            System.out.println("Enter Admin Name: ");
-                            String adminName = sc.next();
-                            System.out.println("Enter Admin Email: ");
-                            String adminEmail = sc.next();
-                            System.out.println("Enter Admin Role: ");
-                            String adminRole = sc.next();
-                            newUser = new Admin(adminId, adminName, adminEmail, adminRole);
-                            users.add(newUser);
-                            break;
-                    }
+                    addUser(users, sc);
                     break;
-
                 case 2:
-                    for (User user : users) {
-                        user.displayInfo();
-                    }
+                    viewAllUsers(users);
                     break;
-
                 case 3:
-
-                    System.out.println("Search User\n");
-                    System.out.println("Enter User ID: ");
-                    int userId = sc.nextInt();
-                    for (User user : users) {
-                        if (user.getId() == userId) {
-                            user.displayInfo();
-                            found = true;
-                            break;
-                        }
-                    }
-                    if (!found) {
-                        System.out.println("User not found\n");
-                    }
+                    serachUser(users, sc);
                     break;
-
                 case 4:
-
-                    System.out.println("Delete User\n");
-                    System.out.println("Enter User ID: ");
-                    int deleteId = sc.nextInt();
-                    for (int i = 0; i < users.size(); i++) {
-
-                        if (users.get(i).getId() == deleteId) {
-                            users.remove(i);
-                            System.out.println("User Deleted Successfully");
-                            found = true;
-                            break;
-                        }
-                    }
-                    if (!found) {
-                        System.out.println("User not found\n");
-                    }
+                    deleteUser(users, sc);
                     break;
                 case 5:
-                    System.out.println("Update User\n");
-                    System.out.println("Enter User ID: ");
-                    int updateId = sc.nextInt();
-                    for (int i = 0; i < users.size(); i++) {
-
-                        if (users.get(i).getId() == updateId) {
-                            found = true;
-                            System.out.println("Enter User Name: ");
-                            String updateName = sc.next();
-                            System.out.println("Enter User Email: ");
-                            String updateEmail = sc.next();
-                            users.get(i).setName(updateName);
-                            users.get(i).setEmail(updateEmail);
-                            System.out.println("User Updated Successfully");
-                            break;
-                        }
-
-                    }
-                    if(!found) {
-                        System.out.println("User not found\n");
-                    }
+                    updateUser(users, sc);
                     break;
-
                 case 6:
                     return;
 
@@ -163,6 +52,140 @@ public class Main {
         }
         return false;
     }
+
+    public static void addUser(ArrayList<User> users, Scanner in) {
+        User newUser = null;
+        System.out.println("Select User Type: ");
+        System.out.println("1. Student");
+        System.out.println("2. Teacher");
+        System.out.println("3. Admin");
+        int choice = in.nextInt();
+        switch (choice) {
+            case 1:
+                System.out.println("Enter User ID: ");
+                int studentId = in.nextInt();
+                if (idExists(users, studentId)) {
+                    System.out.println("ID is already in use.");
+                    break;
+                }
+                System.out.println("Enter Student Name: ");
+                String studentName = in.next();
+                System.out.println("Enter Student Email: ");
+                String studentEmail = in.next();
+                System.out.println("Enter Student Major: ");
+                String studentMajor = in.next();
+                newUser = new Student(studentId, studentName, studentEmail, studentMajor);
+                users.add(newUser);
+                System.out.println("User Added Successfully!");
+                break;
+            case 2:
+                System.out.println("Enter Teacher ID: ");
+                int teacherId = in.nextInt();
+                if (idExists(users, teacherId)) {
+                    System.out.println("ID is already in use.");
+                    break;
+                }
+                System.out.println("Enter Teacher Name: ");
+                String teacherName = in.next();
+                System.out.println("Enter Teacher Email: ");
+                String teacherEmail = in.next();
+                System.out.println("Enter Teacher Department: ");
+                String teacherDepartment = in.next();
+                newUser = new Teacher(teacherId, teacherName, teacherEmail, teacherDepartment);
+                users.add(newUser);
+                System.out.println("User Added Successfully!");
+                break;
+            case 3:
+                System.out.println("Enter Admin ID: ");
+                int adminId = in.nextInt();
+                if (idExists(users, adminId)) {
+                    System.out.println("ID is already in use.");
+                    break;
+                }
+                System.out.println("Enter Admin Name: ");
+                String adminName = in.next();
+                System.out.println("Enter Admin Email: ");
+                String adminEmail = in.next();
+                System.out.println("Enter Admin Role: ");
+                String adminRole = in.next();
+                newUser = new Admin(adminId, adminName, adminEmail, adminRole);
+                users.add(newUser);
+                System.out.println("User Added Successfully!");
+                break;
+            default:
+                System.out.println("Invalid choice");
+                break;
+        }
+
+    }
+
+    public static void viewAllUsers(ArrayList<User> users) {
+        for (User user : users) {
+            user.displayInfo();
+        }
+    }
+
+    public static void serachUser(ArrayList<User> users, Scanner in) {
+        boolean found = false;
+        System.out.println("Search User\n");
+        System.out.println("Enter User ID: ");
+        int userId = in.nextInt();
+        for (User user : users) {
+            if (user.getId() == userId) {
+                user.displayInfo();
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            System.out.println("User not found\n");
+        }
+    }
+
+    public static void deleteUser(ArrayList<User> users, Scanner in) {
+        boolean found = false;
+        System.out.println("Delete User\n");
+        System.out.println("Enter User ID: ");
+        int deleteId = in.nextInt();
+        for (int i = 0; i < users.size(); i++) {
+
+            if (users.get(i).getId() == deleteId) {
+                users.remove(i);
+                System.out.println("User Deleted Successfully");
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            System.out.println("User not found\n");
+        }
+    }
+
+    public static void updateUser(ArrayList<User> users, Scanner in) {
+        boolean found = false;
+
+        System.out.println("Update User\n");
+        System.out.println("Enter User ID: ");
+        int updateId = in.nextInt();
+        for (int i = 0; i < users.size(); i++) {
+
+            if (users.get(i).getId() == updateId) {
+                found = true;
+                System.out.println("Enter User Name: ");
+                String updateName = in.next();
+                System.out.println("Enter User Email: ");
+                String updateEmail = in.next();
+                users.get(i).setName(updateName);
+                users.get(i).setEmail(updateEmail);
+                System.out.println("User Updated Successfully");
+                break;
+            }
+        }
+        if (!found) {
+            System.out.println("User not found\n");
+        }
+    }
+
 
 }
 
