@@ -17,7 +17,9 @@ public class Main {
             System.out.println("3.Serach User");
             System.out.println("4.Delete User");
             System.out.println("5.Update User");
-            System.out.println("6.Exit");
+            System.out.println("6. Add Course To Student");
+            System.out.println("7. View Student Courses");
+            System.out.println("8.Exit");
             int choice = sc.nextInt();
             switch (choice) {
                 case 1:
@@ -36,6 +38,15 @@ public class Main {
                     updateUser(users, sc);
                     break;
                 case 6:
+                    addCoursetoStudent(users, sc);
+                    break;
+                case 7:
+                    viewStudentCousrses(users, sc);
+                    break;
+                case 8:
+                    deleteStudentCousrses(users, sc);
+                    break;
+                case 9:
                     return;
 
             }
@@ -186,6 +197,87 @@ public class Main {
         }
     }
 
+    public static void addCoursetoStudent(ArrayList<User> users, Scanner in) {
+        boolean found = false;
+        System.out.println("Add Course To Student\n");
+        System.out.println("Enter User ID: ");
+        int userId = in.nextInt();
+        for (User user : users) {
+            if (user.getId() == userId) {
+                if (user instanceof Student) {
+                    found = true;
+                    Student student = (Student) user;
+                    System.out.println("Enter Course Name: ");
+                    String courseName = in.next();
+                    System.out.println("Enter Course Code ");
+                    int courseCode = in.nextInt();
+                    Course course = new Course(courseName, courseCode);
+                    student.addCourse(course);
+                    System.out.println("Course Added Successfully");
+                    break;
+                } else {
+                    System.out.println("This user is not a student\n");
+                }
+            }
+        }
+        if (!found) {
+            System.out.println("User not found or not a student");
+        }
+    }
 
+    public static void viewStudentCousrses(ArrayList<User> users, Scanner in) {
+        boolean found = false;
+        System.out.println("View Student Course\n");
+        System.out.println("Enter User ID: ");
+        int usedrId = in.nextInt();
+        for (User user : users) {
+            if (user.getId() == usedrId) {
+                if (user instanceof Student) {
+                    Student student = (Student) user;
+                    student.viewCourses();
+                    found = true;
+                    break;
+                } else {
+                    System.out.println("This user is not a student");
+                    found = true;
+                    break;
+                }
+            }
+        }
+        if (!found) {
+            System.out.println("User not found\n");
+        }
+
+    }
+
+    public static void deleteStudentCousrses(ArrayList<User> users, Scanner in) {
+        boolean found = false;
+        System.out.println("Delete Student Course\n");
+        System.out.println("Enter User ID: ");
+        int usedrId = in.nextInt();
+        for (User user : users) {
+            if (user.getId() == usedrId) {
+                if (user instanceof Student) {
+                    Student student = (Student) user;
+                    student.viewCourses();
+                    found = true;
+                    System.out.println("Enter Course Code: ");
+                    int courseCode = in.nextInt();
+                    boolean removed = student.removeCourse(courseCode);
+                    if (removed) {
+                        System.out.println("Course Removed Successfully");
+                        break;
+                    } else {
+                        System.out.println("Course not found");
+                    }
+                } else {
+                    System.out.println("This user is not a student\n");
+                }
+            }
+        }
+        if (!found) {
+            System.out.println("User not found\n");
+        }
+    }
 }
 

@@ -1,4 +1,4 @@
-public class Admin extends User {
+public class Admin extends User implements Loginable {
 
     String role;
     public Admin(int id ,String name ,String email ,String role) {
@@ -11,5 +11,14 @@ public class Admin extends User {
                 " Student Name: " +name+
                 " Student Email: " +email+
                 " Student role: "+role);
+    }
+    @Override
+    public void login() {
+        System.out.println("Admin logged in");
+    }
+
+    @Override
+    public void logout() {
+        System.out.println("Admin logged out");
     }
 }

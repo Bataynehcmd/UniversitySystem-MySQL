@@ -1,4 +1,4 @@
-public class Teacher extends User {
+public class Teacher extends User implements Loginable {
 
     String department;
 
@@ -12,5 +12,15 @@ public class Teacher extends User {
                 " Student Name: " +name+
                 " Student Email: " +email+
                 " Student department: "+department);
+    }
+
+    @Override
+    public void login() {
+        System.out.println("Teacher Login");
+    }
+
+    @Override
+    public void logout() {
+        System.out.println("Teacher Logout");
     }
 }
